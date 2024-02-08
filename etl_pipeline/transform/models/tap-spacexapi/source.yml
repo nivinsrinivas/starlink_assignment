@@ -1,0 +1,7 @@
+config-version: 2
+version: 2
+sources:
+  - name: tap-spacexapi     # the name we want to reference this source by
+    schema: tap-spacexapi   # the schema the raw data was loaded into
+    tables:
+      - name: starlink

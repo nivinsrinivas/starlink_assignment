@@ -1,0 +1,55 @@
+version: 2
+
+sources:
+  - name: starlink
+    description: This model contains raw data of starlink satellite launches from SpaceX API
+models: 
+  - name: starlink_prediction
+    description: This model creates a table that houses information regarding Starlink satellite launches, with JSON data being unnested, transformed, and filtered to exclude `NULL` values. It features a `transformation_updated_at` column, indicating the timestamp of the latest transformation. The primary key is the `id` column.
+    
+    columns:
+      - name: id
+        description: Primary Key of the table.
+        tests:
+          - not_null
+        constraints:
+          - type: primary_key
+
+      - name: launch_id
+        description: Unique launch ID of a Starlink satellite.
+
+      - name: transformation_updated_at
+        description: Timestamp to indicate latest transformation.  
+
+      - name: satellite_id
+        description: Unique ID of a Starlink satellite.
+
+      - name: satellite_name
+        description: This is the name of the Starlink satellite. This column can be parsed to fetch count of starlink satellites launched by SpaceX.
+      
+      - name: object_type
+        description: Indicates object type. Usually is set to Payload.
+
+      - name: creation_date
+        description: This is the creation date of a Starlink satellite.
+           
+      - name: launch_date
+        description: This is the launch date of a Starlink satellite.
+        tests:
+          - not_null
+        constraints:
+          - type: not_null
+      
+      - name: time_system
+        description: UTC
+
+      - name: country_code
+        description: USA
+
+      - name: version
+        description: Version of Starlink satellite
+        
+      
+      
+
+

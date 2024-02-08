@@ -1,0 +1,36 @@
+version: 1
+default_environment: prod
+project_id: ab646444-57b2-4ca8-a088-e0d836477a1c
+environments:
+- name: dev
+- name: staging
+- name: prod
+plugins:
+  extractors:
+  - name: tap-spacexapi
+    namespace: tap-spacexapi
+    pip_url: -e ../tap-spacexapi
+    executable: tap-spacexapi
+  loaders:
+  - name: target-postgres
+    variant: meltanolabs
+    pip_url: meltanolabs-target-postgres
+    config:
+      user: meltano
+      database: postgres
+      add_record_metadata: true
+      host: localhost
+  utilities:
+  - name: dbt-postgres
+    variant: dbt-labs
+    pip_url: dbt-core dbt-postgres git+https://github.com/meltano/dbt-ext.git@main
+    config:
+      host: localhost
+      port: 5432
+      user: meltano
+      dbname: postgres
+      schema: analytics
+jobs:
+- name: spacex-elt
+  tasks:
+  - tap-spacexapi target-postgres dbt-postgres:run dbt-postgres:test dbt-postgres:docs-generate
