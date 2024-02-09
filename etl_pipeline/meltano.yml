@@ -30,7 +30,17 @@ plugins:
       user: meltano
       dbname: postgres
       schema: analytics
+
 jobs:
-- name: spacex-elt
+- name: extract_and_load_data
   tasks:
-  - tap-spacexapi target-postgres dbt-postgres:run dbt-postgres:test dbt-postgres:docs-generate
+  - tap-spacexapi target-postgres
+- name: transform_data
+  tasks:
+  - dbt-postgres:run
+- name: dbt_tests
+  tasks:
+  - dbt-postgres:test
+- name: generate_dbt_docs
+  tasks:
+  - dbt-postgres:docs-generate

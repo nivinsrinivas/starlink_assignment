@@ -1,0 +1,4 @@
+name: tap-spacexapi
+namespace: tap-spacexapi
+pip_url: -e ../tap-spacexapi
+executable: tap-spacexapi

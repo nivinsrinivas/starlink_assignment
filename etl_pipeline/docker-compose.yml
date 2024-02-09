@@ -1,0 +1,14 @@
+services:
+  meltano_postgres:
+    image: postgres
+    container_name: meltano_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: meltano
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
