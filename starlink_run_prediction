@@ -2,10 +2,14 @@
 
 
 echo "=== Configuring ELT pipeline for starlink prediction ===\n\n"
+cp -f default_meltano.yml elt_pipeline/meltano.yml
+
 # Install python dependencies
 echo "=== Installing python dependencies ===\n"
 cd elt_pipeline
-python3 -m pip install -r requirements.txt
+rm -f plugins/loaders/target-postgres--meltanolabs.lock plugins/utilities/dbt-postgres--dbt-labs.lock starlink_prediction.csv
+
+python3 -m pip install --no-cache-dir -r requirements.txt
 
 # Add extractor tap-spacexapi 
 echo "=== Adding tap-spacexapi extractor ===\n"
@@ -39,7 +43,7 @@ meltano config dbt-postgres set dbname postgres
 meltano config dbt-postgres set schema analytics
 
 echo "=== Fix dbt-postgres bug ===\n"
-python fix_clean-targets.py
+python3 fix_clean-targets.py
 
 echo "=== Add meltano jobs for ELT pipeline ===\n"
 meltano job add extract_and_load_data --tasks "tap-spacexapi target-postgres"
@@ -54,12 +58,13 @@ echo "\n\n"
 echo "==========================================="
 echo "Running the ELT pipeline, predicting starlink launches!..."
 meltano run extract_and_load_data transform_data dbt_tests generate_dbt_docs
-python ../starlink_prediction/prediction.py
+python3 ../starlink_prediction/prediction.py
 
 
 echo "Pipeline successfully completed!\n"
 echo "==========================================="
 
+echo "Opening the DBT documentation in 10 seconds..."
 sleep 10
-echo "Opening the DBT documentation..."
+
 meltano invoke dbt-postgres:docs-serve
