@@ -18,18 +18,19 @@ jobs:
         
         # Install python dependencies
         echo "=== Installing python dependencies ===\n"
-        cd elt_pipeline
         rm -f plugins/loaders/target-postgres--meltanolabs.lock plugins/utilities/dbt-postgres--dbt-labs.lock starlink_prediction.csv
         python3 -m pip install --no-cache-dir -r requirements.txt
 
     - name: Add Custom Spacex API Extractor
       run: |
+        cd elt_pipeline
         # Add extractor tap-spacexapi 
         echo "=== Adding tap-spacexapi extractor ===\n"
         meltano add --from-ref tap-spacexapi.yml extractor tap-spacexapi
 
     - name: Start Docker Container with Postgres
       run: |
+        cd elt_pipeline
         echo "=== Start docker container with postgres in local ===\n"
         # Stop and remove container if already exists
         docker stop meltano_postgres || true && docker rm -f meltano_postgres || true
@@ -37,6 +38,7 @@ jobs:
 
     - name: Add Postgres Loader
       run: |
+        cd elt_pipeline
         echo "=== Adding target-postgres loader ===\n"
         meltano add loader target-postgres --variant=meltanolabs
         meltano config target-postgres set user meltano
@@ -47,6 +49,7 @@ jobs:
 
     - name: Add dbt-postgres Utility
       run: |
+        cd elt_pipeline
         echo "=== Adding dbt-postgres utility ===\n"
         meltano add utility dbt-postgres
         meltano invoke dbt-postgres:initialize
@@ -59,11 +62,13 @@ jobs:
 
     - name: Fix Bug in dbt-postgres
       run: |
+        cd elt_pipeline
         echo "=== Fix dbt-postgres bug ===\n"
         python3 fix_clean-targets.py
 
     - name: Add Meltano Jobs to run the pipeline
       run: |
+        cd elt_pipeline
         echo "=== Add meltano jobs for ELT pipeline ===\n"
         meltano job add extract_and_load_data --tasks "tap-spacexapi target-postgres"
         meltano job add transform_data --tasks "dbt-postgres:run"
@@ -72,6 +77,7 @@ jobs:
 
     - name: Run the ELT Pipeline
       run: |
+        cd elt_pipeline
         echo "\n\n"
         echo "==========================================="
         echo "Running the ELT pipeline, predicting starlink launches!..."
