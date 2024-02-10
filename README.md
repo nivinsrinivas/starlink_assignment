@@ -35,7 +35,7 @@ To run the ELT pipeline and predict Starlink launches:
 
 2. Create a virtual environment in python
 - Run `python3 -m venv meltano_env`
-
+- Run `source meltano_env/bin/activate`
 3. Install Docker and start Docker service
 
 ### Running the shell script - execute_pipeline.sh
@@ -49,6 +49,9 @@ To run the ELT pipeline and predict Starlink launches:
 4. Finally run: `./execute_pipeline.sh`
 
 5. The prediction will be displayed in the terminal. 
+> This will take a couple mins to complete, sit back and relax!
+
+- The output will be displayed in terminal. After 10 seconds, a DBT document will open on your browser with the results. 
 
 ## Implementation details
 ### Custom Extractor for SpaceX API 
