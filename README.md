@@ -25,6 +25,9 @@ To run the ELT pipeline and predict Starlink launches:
 
 3. Once the workflow is triggered, click on the workflow execution and build to see the steps being executed. 
 
+
+### Check `Run the prediction script!` block in Github Actions job to see the final output.
+
 ## Usage - Shell Script
 ### Prerequisites
 1. Install Python
@@ -46,10 +49,6 @@ To run the ELT pipeline and predict Starlink launches:
 4. Finally run: `./execute_pipeline.sh`
 
 5. The prediction will be displayed in the terminal. 
-
-
-
-### Check `Run the prediction script!` block in Github Actions job to see the final output.
 
 ## Implementation details
 ### Custom Extractor for SpaceX API 
