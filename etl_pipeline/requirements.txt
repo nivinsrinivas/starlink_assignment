@@ -1,4 +1,9 @@
 meltano==3.3.1
 pipx==1.4.3
 singer-sdk==0.34.1
+psycopg2-binary
+pandas
+pyarrow
+scikit-learn
+
 
