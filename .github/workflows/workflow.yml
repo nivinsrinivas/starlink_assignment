@@ -18,6 +18,7 @@ jobs:
         
         # Install python dependencies
         echo "=== Installing python dependencies ===\n"
+        cd elt_pipeline
         rm -f plugins/loaders/target-postgres--meltanolabs.lock plugins/utilities/dbt-postgres--dbt-labs.lock starlink_prediction.csv
         python3 -m pip install --no-cache-dir -r requirements.txt
 
