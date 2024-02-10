@@ -86,6 +86,7 @@ jobs:
     
     - name: Run the prediction script!
       run: |
-        python3 ../starlink_prediction/prediction.py
+
+        python3 starlink_prediction/prediction.py
         echo "Pipeline successfully completed!"
         echo "==========================================="
