@@ -164,48 +164,48 @@ The workflow file (`workflow.yml`) defines the automation process for executing 
 
 
 ## Improvement plans!
-<br>1. Publish my custom extractor `tap-spacexapi` to PyPI. 
+#### 1. Publish my custom extractor `tap-spacexapi` to PyPI. 
 - I will publish my custom extractor to PyPI. 
 
-- With my extractor published, we can do a pip install in the meltano project to access it instead of having the extractor codebase itself. 
+- With my extractor published, we can do a pip install in the meltano project to access it instead of having the extractor in this codebase. 
 
 
-<br>2. Better forecasting logic for 42000 launches. 
+#### 2. Better forecasting logic for 42000 launches. 
 - As mentioned in the assignment instructions, I did assume we have a team of Analysts to predict the launches once the data is available. 
 
 - Nevertheless, I've tried to make a decent prediction using Linear regression and forecasting methods.
 
 - We can try other ML models to improve accuracy of the prediction.
 
-<br>3. Github Secrets for all passwords
+#### 3. Github Secrets for all passwords
 - Ideally in production, we must store them in Github Secrets and reference them in the Github Actions workflow. 
 
 - This would require admin priveleges to add these secrets to repository settings. But this will be my top priority if I push my code to production!
 
 
-<br>4. Unit tests for prediction.py 
+#### 4. Unit tests for prediction.py 
 - I will right more unit tests, implement exception handling for the python file that does the prediction of starlink launches.
 
-<br>5. Data quality, data cleaning
+#### 5. Data quality, data cleaning
 - The SpaceX API data does have inconsistencies.
 
 - I've implemented checks in DBT to filter `NULL` values and discard irrelevant records. 
 
 - However, we can enforce strict data quality checks on the API data during data extraction and loading itself. 
 
-<br>6. Dashboard to track starlink satellite launches  
+#### 6. Dashboard to track starlink satellite launches  
 - This would be a cool feature I'd like to implement using data visualization tools like Metabase, Redash or Chartbrew. 
 
 - This will help to track the satellite launches in realtime using a dashboard. 
 
 - I would refresh the data in this dashboard every week or so to fetch data from API and get latest info on the launches. 
 
-<br>7. Documentation and code improvements
+#### 7. Documentation and code improvements
 - I will add a detailed doc of my implementation for anyone to try building this project from scratch. 
 
 - Add more Comments, docstrings wherever required. 
 
 - Fix warnings
 
-                     The End!
+> This was a great exercise to work on!!
 -----
