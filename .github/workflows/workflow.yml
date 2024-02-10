@@ -22,17 +22,21 @@ jobs:
         rm -f plugins/loaders/target-postgres--meltanolabs.lock plugins/utilities/dbt-postgres--dbt-labs.lock starlink_prediction.csv
         python3 -m pip install --no-cache-dir -r requirements.txt
 
+    - name: Add Custom Spacex API Extractor
+      run: |
         # Add extractor tap-spacexapi 
         echo "=== Adding tap-spacexapi extractor ===\n"
         meltano add --from-ref tap-spacexapi.yml extractor tap-spacexapi
 
-        # Add loader target-postgres to meltano
-        # First run local docker container with postgres
+    - name: Start Docker Container with Postgres
+      run: |
         echo "=== Start docker container with postgres in local ===\n"
         # Stop and remove container if already exists
         docker stop meltano_postgres || true && docker rm -f meltano_postgres || true
         docker-compose up -d
 
+    - name: Add Postgres Loader
+      run: |
         echo "=== Adding target-postgres loader ===\n"
         meltano add loader target-postgres --variant=meltanolabs
         meltano config target-postgres set user meltano
@@ -41,6 +45,8 @@ jobs:
         meltano config target-postgres set add_record_metadata True
         meltano config target-postgres set host localhost  
 
+    - name: Add dbt-postgres Utility
+      run: |
         echo "=== Adding dbt-postgres utility ===\n"
         meltano add utility dbt-postgres
         meltano invoke dbt-postgres:initialize
@@ -51,20 +57,26 @@ jobs:
         meltano config dbt-postgres set dbname postgres
         meltano config dbt-postgres set schema analytics
 
+    - name: Fix Bug in dbt-postgres
+      run: |
         echo "=== Fix dbt-postgres bug ===\n"
         python3 fix_clean-targets.py
 
+    - name: Add Meltano Jobs to run the pipeline
+      run: |
         echo "=== Add meltano jobs for ELT pipeline ===\n"
         meltano job add extract_and_load_data --tasks "tap-spacexapi target-postgres"
         meltano job add transform_data --tasks "dbt-postgres:run"
         meltano job add dbt_tests --tasks "dbt-postgres:test"
         meltano job add generate_dbt_docs --tasks "dbt-postgres:docs-generate"
 
+    - name: Run the ELT Pipeline
+      run: |
         echo "\n\n"
         echo "==========================================="
         echo "Running the ELT pipeline, predicting starlink launches!..."
         meltano run extract_and_load_data transform_data dbt_tests generate_dbt_docs
         python3 ../starlink_prediction/prediction.py
 
-        echo "Pipeline successfully completed!\n"
+        echo "Pipeline successfully completed!"
         echo "==========================================="
