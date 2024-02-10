@@ -33,8 +33,6 @@ jobs:
       run: |
         cd elt_pipeline
         echo "=== Start docker container with postgres in local ===\n"
-        # Stop and remove container if already exists
-        docker stop meltano_postgres || true && docker rm -f meltano_postgres || true
         docker-compose up -d
 
     - name: Add Postgres Loader
