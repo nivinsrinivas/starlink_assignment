@@ -83,7 +83,9 @@ jobs:
         echo "==========================================="
         echo "Running the ELT pipeline, predicting starlink launches!..."
         meltano run extract_and_load_data transform_data dbt_tests generate_dbt_docs
+    
+    - name: Run the prediction script!
+      run: |
         python3 ../starlink_prediction/prediction.py
-
         echo "Pipeline successfully completed!"
         echo "==========================================="
